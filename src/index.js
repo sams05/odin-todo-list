@@ -25,7 +25,30 @@ const test = [
     ),
 ];
 
-window.appController = appController;
+// window.appController = appController;
+window.appController = new (class AppController {
+    #projects = [];
+
+    get projects() {
+        return [...this.#projects];
+    }
+
+    getProject(idx) {
+        return this.#projects[idx];
+    }
+
+    addProjects(...projects) {
+        this.#projects.push(...projects);
+    }
+
+    init() {
+        //PubSub.publish(TOPICS.INIT, this.projects);
+        console.table(projects);
+        setTimeout(() => console.log('loading...'), 5000)
+        const idx = selectProject();
+        
+    }
+})();
 window.displayProjects = function(projects) {
     console.table(projects);
     for(const project of projects) {
@@ -39,11 +62,13 @@ appController.addProjects(...test);
 // Test script
 (() => {
     // view all projects
-    userInterface.init();
-    appController.init();
+    //userInterface.init();
+    //appController.init();
     //displayProjects(appController.projects);
 
-//view all todos in each project (probably just the title and duedate… perhaps changing color for different priorities)
+    //view all todos in each project (probably just the title and duedate… perhaps changing color for different priorities)
+
+
 //expand a single todo to see/edit its details
 //delete a todo
 })();

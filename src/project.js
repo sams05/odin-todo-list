@@ -13,4 +13,8 @@ export default class Project {
     get todos() {
         return [...this.#todos];
     }
+
+    getTodo(idx) {
+        return this.todos[idx];
+    }
 }
