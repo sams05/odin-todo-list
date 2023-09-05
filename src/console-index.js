@@ -5,13 +5,12 @@ const userInterface = new (class Interface {
     displayProjects(projects) {
         console.table(projects);
         //(2)Allow user to select a project (attach event handlers)
-            // For now, manually select project by directly calling appController.getProject(idx)
         console.log('select project by directly calling appController.getProject(idx)');
         
         //(14) Remove all event handlers added from displayProject/displayTodo
 
-        //(15)Allow user to create a project
-            //
+        //(15)Allow user to create a project (attach event handlers)
+        console.log('create project by calling appController.createProject(title)');
         
         //PubSub.subscribe(TOPICS.PROJ_REQUESTED, this.getProject);
     }
@@ -20,11 +19,14 @@ const userInterface = new (class Interface {
         console.log(project.title);
         console.table(project.todos);
 
-        //(4) Remove ability to select project while looking at current project (remove event handlers)
+        //(4) Remove all event handlers from displayProjects
         //(5) Allow for user to go back to looking at all the projects (add event handler)
         //(6) Allow for user to expand a single todo to see its details (add event handlers)
             // For now, manually select todo by calling appController.getTodo(projIdx, todoIdx)
         console.log('select todo by calling appController.getTodo(projIdx, todoIdx)');
+
+        //(17) Allow for user to create a todo
+        console.log('create todo by calling appController.createTodo(projIdx, title, desc, dueDate)');
     }
 
     displayTodo(todo) {
@@ -56,6 +58,13 @@ const appController = new (class AppController {
         return [...this.#projects];
     }
 
+    createProject(title) {
+        //(16) create project
+        const proj = new Project(title);
+        this.addProject(proj);
+        userInterface.displayProject(proj);
+    }
+
     getProject(idx) {
         //(3) View all todos in each project
         userInterface.displayProject(this.projects[idx]);
@@ -63,8 +72,15 @@ const appController = new (class AppController {
         // return this.#projects[idx];
     }
 
-    addProjects(...projects) {
+    addProject(...projects) {
         this.#projects.push(...projects);
+    }
+
+    createTodo(projIdx, title, desc, dueDate) {
+        //(18) create todo
+        const todo = new Todo(title, desc, dueDate);
+        this.#projects[projIdx].addTodo(todo);
+        userInterface.displayTodo(todo);
     }
 
     getTodo(projIdx, todoIdx) {
@@ -111,12 +127,6 @@ const test = [
 // Make into global variable to test on browser console
 window.appController = appController;
 
-appController.addProjects(...test);
+appController.addProject(...test);
 
 appController.init();
-
-/*
-appController.getProject(1);
-appController.getTodo(1,2);
-appController.editTodo(1,2,'title','job4');
-*/

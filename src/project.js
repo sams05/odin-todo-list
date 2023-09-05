@@ -3,10 +3,10 @@ export default class Project {
 
     constructor(title, ...todos) {
         this.title = title;
-        this.addTodos(...todos);
+        this.addTodo(...todos);
     }
 
-    addTodos(...todos) {
+    addTodo(...todos) {
         this.#todos.push(...todos);
     }
 
