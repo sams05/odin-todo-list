@@ -2,6 +2,7 @@ import userInterface from './ui';
 import appController from './app-controller';
 import Project from './project';
 import Todo from './todo';
+import './style.css';
 
 // Testing
 const test = [
@@ -25,30 +26,7 @@ const test = [
     ),
 ];
 
-// window.appController = appController;
-window.appController = new (class AppController {
-    #projects = [];
-
-    get projects() {
-        return [...this.#projects];
-    }
-
-    getProject(idx) {
-        return this.#projects[idx];
-    }
-
-    addProjects(...projects) {
-        this.#projects.push(...projects);
-    }
-
-    init() {
-        //PubSub.publish(TOPICS.INIT, this.projects);
-        console.table(projects);
-        setTimeout(() => console.log('loading...'), 5000)
-        const idx = selectProject();
-        
-    }
-})();
+//window.appController = appController;
 window.displayProjects = function(projects) {
     console.table(projects);
     for(const project of projects) {
@@ -57,7 +35,7 @@ window.displayProjects = function(projects) {
     }
 }
 
-appController.addProjects(...test);
+appController.addProject(...test);
 
 // Test script
 (() => {

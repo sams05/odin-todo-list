@@ -1,10 +1,7 @@
 import PubSub from './pubsub-facade';
 import { TOPICS } from './event-types';
-import userInterface from './ui';
-
-function selectProject() {
-    return +prompt('Select project');
-}
+import Todo from "./todo";
+import Project from "./project";
 
 export default new (class AppController {
     #projects = [];
@@ -13,20 +10,47 @@ export default new (class AppController {
         return [...this.#projects];
     }
 
-    getProject(idx) {
-        //View all todos in each project, remove ability to select project while looking at current project (remove event handlers)
-        return this.#projects[idx];
+    createProject(title) {
+        //(16) create project
+        const proj = new Project(title);
+        this.addProject(proj);
+        userInterface.displayProject(proj);
     }
 
-    addProjects(...projects) {
+    getProject(idx) {
+        //(3) View all todos in each project
+        userInterface.displayProject(this.projects[idx]);
+
+        // return this.#projects[idx];
+    }
+
+    addProject(...projects) {
         this.#projects.push(...projects);
+    }
+
+    createTodo(projIdx, title, desc, dueDate) {
+        //(18) create todo
+        const todo = new Todo(title, desc, dueDate);
+        this.#projects[projIdx].addTodo(todo);
+        userInterface.displayTodo(todo);
+    }
+
+    getTodo(projIdx, todoIdx) {
+        //(7) View todo
+        userInterface.displayTodo(this.#projects[projIdx].getTodo(todoIdx));
+    }
+
+    editTodo(projIdx, todoIdx, prop, val) {
+        //(12) Edit todo
+        const todo = this.#projects[projIdx].getTodo(todoIdx);
+        todo[prop] = val;
+        userInterface.updateTodoDisplay(todo, prop, val);
     }
 
     init() {
         //PubSub.publish(TOPICS.INIT, this.projects);
 
         //(1) View all projects
-        userInterface.displayProjects(projects);     
+        userInterface.displayProjects(this.projects);
     }
 })();
-
