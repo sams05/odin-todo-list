@@ -1,5 +1,5 @@
-import userInterface from './ui';
-import appController from './app-controller';
+import { renderProjects } from './ui';
+import * as app from './app';
 import Project from './project';
 import Todo from './todo';
 import './style.css';
@@ -26,7 +26,6 @@ const test = [
     ),
 ];
 
-//window.appController = appController;
 window.displayProjects = function(projects) {
     console.table(projects);
     for(const project of projects) {
@@ -35,14 +34,12 @@ window.displayProjects = function(projects) {
     }
 }
 
-appController.addProject(...test);
+app.addProject(...test);
 
 // Test script
 (() => {
-    // view all projects
-    //userInterface.init();
-    //appController.init();
-    //displayProjects(appController.projects);
+    // View all projects
+    renderProjects();
 
     //view all todos in each project (probably just the title and duedate… perhaps changing color for different priorities)
 

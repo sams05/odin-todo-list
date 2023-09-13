@@ -1,15 +1,8 @@
-/* || Reset */
+/* || RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-:root {
-    /* Site color palette */
-    --blue: rgb(25 146 211);
-    --gray: rgb(226 232 240);
-    --orange: rgb(241 177 39);
 }
 
 a {
@@ -30,3 +23,52 @@ button {
     cursor: pointer;
 }
 
+/* || GENERAL STYLES */
+:root {
+    /* Site color palette */
+    --blue: rgb(25, 145, 210);
+    --gray: rgb(225, 230, 240);
+    --orange: rgb(240, 180, 40);
+    --red: rgb(255, 0, 60);
+}
+
+/* || LAYOUT */
+.container {
+    min-height: 100vh;
+
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    grid-template-columns: 20% 80%;
+}
+
+/* || HEADER */
+header {
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+
+    background-color: var(--red);
+}
+
+/* || SIDEBAR */
+aside {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+
+    background-color: var(--blue);
+    color: white;
+    padding: 20px;
+}
+
+aside .heading {
+    margin-bottom: 20px;
+}
+
+aside li {
+    margin-bottom: 10px;
+}
+
+/* || MAIN */
+main {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
