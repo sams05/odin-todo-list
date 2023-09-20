@@ -1,4 +1,4 @@
-import { renderProjects } from './ui';
+import { init } from './ui';
 import * as app from './app';
 import Project from './project';
 import Todo from './todo';
@@ -39,7 +39,7 @@ app.addProject(...test);
 // Test script
 (() => {
     // View all projects
-    renderProjects();
+    init();
 
     //view all todos in each project (probably just the title and duedate… perhaps changing color for different priorities)
 

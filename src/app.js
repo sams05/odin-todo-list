@@ -2,6 +2,14 @@ import Todo from './todo';
 import Project from './project';
 
 const projects = [];
+const state = {
+    curProjIdx: null,
+    curTodoIdx: null
+};
+
+function getProjects() {
+    return [...projects];
+}
 
 function createProject(title) {
     //(16) create project
@@ -11,10 +19,25 @@ function createProject(title) {
 }
 
 function getProject(idx) {
-    //(3) View all todos in each project
-    userInterface.displayProject(projects[idx]);
+    return projects[idx];
+}
 
-    // return projects[idx];
+function setCurProject(idx) {
+    state.curProjIdx = idx;
+    state.TodoIdx = null;
+    if(state.curProjIdx === null) {
+        return null;
+    } else {
+        return getCurProjectDetails();
+    }
+}
+
+function getCurProjectDetails() {
+    const curProj = getProject(state.curProjIdx);
+    return {
+        title: curProj.title,
+        todos: curProj.todos
+    };
 }
 
 function addProject(...newProjects) {
@@ -28,9 +51,17 @@ function createTodo(projIdx, title, desc, dueDate) {
     userInterface.displayTodo(todo);
 }
 
-function getTodo(projIdx, todoIdx) {
-    //(7) View todo
-    userInterface.displayTodo(projects[projIdx].getTodo(todoIdx));
+function getCurTodoDetails() {
+    return getProject(state.curProjIdx).getTodo(state.curTodoIdx);
+}
+
+function setTodo(idx) {
+    state.curTodoIdx = idx;
+    if(state.curTodoIdx === null) {
+        return null;
+    } else {
+        return getCurTodoDetails();
+    }
 }
 
 function editTodo(projIdx, todoIdx, prop, val) {
@@ -40,4 +71,5 @@ function editTodo(projIdx, todoIdx, prop, val) {
     userInterface.updateTodoDisplay(todo, prop, val);
 }
 
-export { projects, createProject, getProject, addProject, createTodo, getTodo, editTodo };
+//createProject, getProject, createTodo, getTodo, editTodo
+export { getProjects, getProject, setCurProject, addProject, setTodo}; // remove addProject

@@ -3,9 +3,7 @@
  * title <String>: title of the Todo
  * desc <String>: description of the Todo
  * dueDate <Date>: due date of the Todo
- * priority <Number>: how important the todo is compared to other todo items in the project.
- *      A priority of 1 is most important and the priority of the todo item go down for higher values.
- *      Each Todo should have a unique priority within the project.
+ * priority <String>: low, medium, or high
  * check <boolean>: whether the Todo is completed or not
  */
 export default class Todo {
