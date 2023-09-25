@@ -5,7 +5,8 @@ const PROJECT_UL = document.querySelector('.projects-list');
 const TEMPLATES = {
     MAIN_PROJECTS: document.getElementById('main-projects-template'),
     MAIN_PROJECT: document.getElementById('main-project-template'),
-    MAIN_TODO: document.getElementById('main-todo-template')
+    MAIN_TODO: document.getElementById('main-todo-template'),
+    MAIN_TODO_FORM: document.getElementById('main-todo-form-template')
 };
 const MAIN = document.querySelector('main');
 
@@ -91,8 +92,8 @@ function renderProject(projIdx) {
     // Set up list of todos
     const ul = mainProject.querySelector('.todos-list');
     for(let i = 0; i < todos.length; i++) {
-        let {title, dueDate} = todos[i];
-        ul.append(getTodoListNode(title, dueDate, i));
+        let {title, dueDateHuman} = todos[i];
+        ul.append(getTodoListNode(title, dueDateHuman, i));
     }
     MAIN.replaceChildren(mainProject);
 
@@ -106,7 +107,7 @@ function renderProject(projIdx) {
 
 function renderTodo(idx) {
     //(7) View todo
-    const todo = app.setTodo(idx);
+    const todo = app.setCurTodo(idx);
     const mainTodo = TEMPLATES.MAIN_TODO.content.cloneNode(true);
     // Set title of todo
     const heading = mainTodo.querySelector('.heading');
@@ -116,13 +117,35 @@ function renderTodo(idx) {
     desc.textContent = todo.desc;
     // Set date
     const dueDate = mainTodo.getElementById('todo-due-date');
-    dueDate.textContent = todo.dueDate;
+    dueDate.textContent = todo.dueDateHuman;
     // Set priority
     const priority = mainTodo.getElementById('todo-priority');
     priority.textContent = todo.priority;
     MAIN.replaceChildren(mainTodo);
+}
 
+function renderTodoForm(idx) {
+    throw new Error();
+    const todo = app.getCurTodoDetails();
     //(11) Allow for user to edit the todo (add event handlers)
+    const mainTodoForm = TEMPLATES.MAIN_TODO_FORM.content.cloneNode(true);
+    // Set title of todo
+    const heading = mainTodoForm.querySelector('.heading');
+    heading.textContent = todo.title;
+    // Set description
+    const descInput = mainTodoForm.getElementById('todo-desc');
+    descInput.value = todo.desc;
+    // Set date
+    const dueDateInput = mainTodoForm.getElementById('todo-due-date');
+    dueDateInput.value = todo.dueDateJs;
+    // Set priority
+    const priorityOpt = mainTodoForm.querySelector(`#todo-priority > option[value="${todo.priority}"]`);
+    priorityOpt.selected = true;
+    MAIN.replaceChildren(mainTodoForm);
+}
+
+function editTodo() {
+    throw new Error();
     // For now manually edit todo by calling app.editTodo(projIdx, todoIdx, prop, val)
     console.log('Edit todo by calling app.editTodo(projIdx, todoIdx, prop, val)');
 }

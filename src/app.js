@@ -55,7 +55,7 @@ function getCurTodoDetails() {
     return getProject(state.curProjIdx).getTodo(state.curTodoIdx);
 }
 
-function setTodo(idx) {
+function setCurTodo(idx) {
     state.curTodoIdx = idx;
     if(state.curTodoIdx === null) {
         return null;
@@ -72,4 +72,4 @@ function editTodo(projIdx, todoIdx, prop, val) {
 }
 
 //createProject, getProject, createTodo, getTodo, editTodo
-export { getProjects, getProject, setCurProject, addProject, setTodo}; // remove addProject
+export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails}; // remove addProject

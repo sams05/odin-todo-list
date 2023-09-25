@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 /**
  * Class for Todo objects which will be maintained under a Project object
  * title <String>: title of the Todo
@@ -31,6 +33,17 @@ export default class Todo {
 
     get dueDate() {
         return this.#dueDate;
+    }
+
+    // due date in human readable format
+    get dueDateHuman() {
+        return format(this.#dueDate, 'PPp');
+    }
+
+    // due date following the "date time string format" in the javascript specification
+    // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-time-string-format
+    get dueDateJs() {
+        return format(this.#dueDate, "yyyy-MM-dd'T'HH':'mm");
     }
 
     get priority() {

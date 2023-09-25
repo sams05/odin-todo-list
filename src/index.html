@@ -51,13 +51,34 @@
                     </div>
                     <div>
                         <h4>Due Date</h4>
-                        <p id="todo-due-date"><!--Aug 3, 2023--></p>
+                        <p id="todo-due-date"><!--Date--></p>
                     </div>
                     <div>
                         <h4>Priority</h4>
-                        <p id="todo-priority"><!--High--></p>
+                        <p id="todo-priority"><!--Priority--></p>
                     </div>
                 </section> 
+            </template>
+            <template id="main-todo-form-template">
+                <h2 class="heading"><!--Todo Title--></h2>
+                <form>
+                    <div class="form-field">
+                        <label for="todo-desc">Description</label>
+                        <input id="todo-desc" name="todo-desc" type="text">
+                    </div>
+                    <div class="form-field">
+                        <label for="todo-due-date">Due Date</label>
+                        <input id="todo-due-date" name="todo-due-date" type="datetime-local">
+                    </div>
+                    <div class="form-field">
+                        <label for="todo-priority">Priority</label>
+                        <select id="todo-priority" name="todo-priority">
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </form>
             </template>
         </div>
     </body>
