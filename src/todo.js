@@ -43,7 +43,7 @@ export default class Todo {
     // due date following the "date time string format" in the javascript specification
     // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-date-time-string-format
     get dueDateJs() {
-        return format(this.#dueDate, "yyyy-MM-dd'T'HH':'mm");
+        return format(this.#dueDate, "yyyy-MM-dd'T'HH:mm");
     }
 
     get priority() {

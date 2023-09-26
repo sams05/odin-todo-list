@@ -42,7 +42,7 @@
             </template>
             <template id="main-todo-template">            
                 <h2 class="heading"><!--Todo Title--></h2>
-                <section>
+                <section class="todo-details">
                     <div>
                         <h4>Description</h4>
                         <p id="todo-desc">
@@ -58,10 +58,14 @@
                         <p id="todo-priority"><!--Priority--></p>
                     </div>
                 </section> 
+                <section class="todo-btns">
+                    <button type="button" class="edit-btn">Edit</button>
+                    <button type="button" class="del-btn">Delete</button>
+                </section>
             </template>
             <template id="main-todo-form-template">
                 <h2 class="heading"><!--Todo Title--></h2>
-                <form>
+                <form class="todo-details">
                     <div class="form-field">
                         <label for="todo-desc">Description</label>
                         <input id="todo-desc" name="todo-desc" type="text">
@@ -79,6 +83,9 @@
                         </select>
                     </div>
                 </form>
+                <section class="todo-btns">
+                    <button type="button" class="back-btn">Back</button>
+                </section>
             </template>
         </div>
     </body>

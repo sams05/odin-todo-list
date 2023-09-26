@@ -107,7 +107,7 @@ function renderProject(projIdx) {
 
 function renderTodo(idx) {
     //(7) View todo
-    const todo = app.setCurTodo(idx);
+    const todo = (idx === undefined) ? app.getCurTodoDetails() : app.setCurTodo(idx);
     const mainTodo = TEMPLATES.MAIN_TODO.content.cloneNode(true);
     // Set title of todo
     const heading = mainTodo.querySelector('.heading');
@@ -121,11 +121,15 @@ function renderTodo(idx) {
     // Set priority
     const priority = mainTodo.getElementById('todo-priority');
     priority.textContent = todo.priority;
+    // Edit button
+    const editBtn = mainTodo.querySelector('.edit-btn');
+    editBtn.addEventListener('click', renderTodoForm);
+    // Delete button
+    const delBtn = mainTodo.querySelector('.del-btn');
     MAIN.replaceChildren(mainTodo);
 }
 
-function renderTodoForm(idx) {
-    throw new Error();
+function renderTodoForm() {
     const todo = app.getCurTodoDetails();
     //(11) Allow for user to edit the todo (add event handlers)
     const mainTodoForm = TEMPLATES.MAIN_TODO_FORM.content.cloneNode(true);
@@ -141,6 +145,9 @@ function renderTodoForm(idx) {
     // Set priority
     const priorityOpt = mainTodoForm.querySelector(`#todo-priority > option[value="${todo.priority}"]`);
     priorityOpt.selected = true;
+    // Back button
+    const backBtn = mainTodoForm.querySelector('.back-btn');
+    backBtn.addEventListener('click', getTodoHandler);
     MAIN.replaceChildren(mainTodoForm);
 }
 
