@@ -64,12 +64,16 @@ function setCurTodo(idx) {
     }
 }
 
-function editTodo(projIdx, todoIdx, prop, val) {
-    //(12) Edit todo
-    const todo = projects[projIdx].getTodo(todoIdx);
-    todo[prop] = val;
-    userInterface.updateTodoDisplay(todo, prop, val);
+/**
+ * Edit current todo
+ * @param {Object} options Object of todo property:value pairs 
+ */
+function editCurTodo(options) {
+    const todo = getCurTodoDetails();
+    for(const prop in options) {
+        todo[prop] = options[prop];
+    }
 }
 
 //createProject, getProject, createTodo, getTodo, editTodo
-export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails}; // remove addProject
+export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails, editCurTodo}; // remove addProject

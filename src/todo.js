@@ -16,11 +16,11 @@ export default class Todo {
     #check;
 
     constructor(title, desc, dueDate, priority, check = false) {
-        this.#title = title;
-        this.#desc = desc;
-        this.#dueDate = dueDate;
-        this.#priority = priority;
-        this.#check = check;
+        this.title = title;
+        this.desc = desc;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.check = check;
     }
 
     get title() {
@@ -63,7 +63,7 @@ export default class Todo {
     }
 
     set dueDate(dueDate) {
-        this.#dueDate = dueDate;
+        this.#dueDate = new Date(dueDate);
     }
 
     set priority(priority) {

@@ -129,6 +129,21 @@ function renderTodo(idx) {
     MAIN.replaceChildren(mainTodo);
 }
 
+function editTodo(e) {
+    //(12) Edit todo
+    // Get description
+    const descTextArea = document.getElementById('todo-desc');
+    const desc = descTextArea.value;
+    // Get date
+    const dueDateInput = document.getElementById('todo-due-date');
+    const dueDate = dueDateInput.value;
+    // get priority
+    const prioritySelect = document.getElementById('todo-priority');
+    const priority = prioritySelect.selectedOptions[0].value;
+    app.editCurTodo({ desc, dueDate, priority });
+    renderTodo();
+}
+
 function renderTodoForm() {
     const todo = app.getCurTodoDetails();
     //(11) Allow for user to edit the todo (add event handlers)
@@ -137,8 +152,8 @@ function renderTodoForm() {
     const heading = mainTodoForm.querySelector('.heading');
     heading.textContent = todo.title;
     // Set description
-    const descInput = mainTodoForm.getElementById('todo-desc');
-    descInput.value = todo.desc;
+    const descTextArea = mainTodoForm.getElementById('todo-desc');
+    descTextArea.textContent = todo.desc;
     // Set date
     const dueDateInput = mainTodoForm.getElementById('todo-due-date');
     dueDateInput.value = todo.dueDateJs;
@@ -148,13 +163,10 @@ function renderTodoForm() {
     // Back button
     const backBtn = mainTodoForm.querySelector('.back-btn');
     backBtn.addEventListener('click', getTodoHandler);
+    // Save button
+    const saveBtn = mainTodoForm.querySelector('.save-btn');
+    saveBtn.addEventListener('click', editTodo);
     MAIN.replaceChildren(mainTodoForm);
-}
-
-function editTodo() {
-    throw new Error();
-    // For now manually edit todo by calling app.editTodo(projIdx, todoIdx, prop, val)
-    console.log('Edit todo by calling app.editTodo(projIdx, todoIdx, prop, val)');
 }
 
 function updateTodoDisplay(todo, prop, val) {
