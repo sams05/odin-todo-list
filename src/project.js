@@ -17,4 +17,11 @@ export default class Project {
     getTodo(idx) {
         return this.todos[idx];
     }
+
+    toJSON() {
+        return {
+            title: this.title,
+            todos: this.todos
+        };
+    }
 }

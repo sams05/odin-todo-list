@@ -75,5 +75,39 @@ function editCurTodo(options) {
     }
 }
 
+function saveData() {
+    localStorage.setItem('projects', JSON.stringify({
+        projects: getProjects()
+    }));
+}
+
+// Look at return value of JSON.stringify({projects: getProjects()}) for expected string to parse;
+function retrieveData() {
+    let projects = localStorage.getItem('projects');
+    projects = JSON.parse(projects, function(key, val) {
+        // todos property of Project
+        if(key === 'todos') {
+            // Loop through todos elements and convert back into Todo objects
+            const parsedTodos = [];
+            for(const todo of val) {
+                const {title, desc, dueDate, priority, check} = todo;
+                parsedTodos.push(new Todo(title, desc, dueDate, priority, check));
+            }
+            return parsedTodos;
+        }
+        if(key === 'projects') {
+            // Loop through projects elements and convert back into Project objects
+            const parsedProjects = [];
+            for(const project of val) {
+                const {title, todos} = project;
+                parsedProjects.push(new Project(title, ...todos));
+            }
+            return parsedProjects;
+        }
+        return val;
+    });
+    return projects.projects;
+}
+
 //createProject, getProject, createTodo, getTodo, editTodo
-export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails, editCurTodo}; // remove addProject
+export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails, editCurTodo}; // |TODO remove addProject

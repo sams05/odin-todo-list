@@ -73,4 +73,14 @@ export default class Todo {
     set check(check) {
         this.#check = check;
     }
+
+    toJSON() {
+        return {
+            title: this.title, 
+            desc: this.desc, 
+            dueDate: this.dueDate, 
+            priority: this.priority, 
+            check: this.check
+        };
+    }
 }

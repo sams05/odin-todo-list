@@ -26,24 +26,17 @@ const test = [
     ),
 ];
 
-window.displayProjects = function(projects) {
-    console.table(projects);
-    for(const project of projects) {
-        console.log(project.title);
-        console.table(project.todos);
-    }
-}
-
 app.addProject(...test);
+window.projects = app.getProjects();
 
 // Test script
-(() => {
-    // View all projects
-    init();
 
-    //view all todos in each project (probably just the title and due date… perhaps changing color for different priorities)
+// View all projects
+init();
+
+//view all todos in each project (probably just the title and due date… perhaps changing color for different priorities)
 
 
 //expand a single todo to see/edit its details
 //delete a todo
-})();
+
