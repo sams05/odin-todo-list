@@ -6,7 +6,7 @@ const TEMPLATES = {
     MAIN_PROJECTS: document.getElementById('main-projects-template'),
     MAIN_PROJECT: document.getElementById('main-project-template'),
     MAIN_TODO: document.getElementById('main-todo-template'),
-    MAIN_TODO_FORM: document.getElementById('main-todo-form-template')
+    MAIN_TODO_FORM: document.getElementById('main-todo-form-template'),
 };
 const MAIN = document.querySelector('main');
 
@@ -49,7 +49,7 @@ function toggleCreateProj(e) {
     const createBtn = document.getElementById('create-btn');
     toggleBtn.classList.toggle('active');
     form.toggleAttribute('hidden');
-    if(toggleBtn.textContent === '+') {
+    if (toggleBtn.textContent === '+') {
         // Showing the form
         toggleBtn.textContent = 'x';
         createBtn.addEventListener('click', createProject);
@@ -102,7 +102,7 @@ function getTodoListNode(title, dueDate, todoIdx) {
     const btn = document.createElement('button');
     btn.textContent = title;
     btn.dataset.todoIdx = todoIdx;
-    btn.addEventListener('click', getTodoHandler)
+    btn.addEventListener('click', getTodoHandler);
     pLeft.append(checkbox, btn);
 
     const pRight = document.createElement('p');
@@ -112,28 +112,36 @@ function getTodoListNode(title, dueDate, todoIdx) {
     return li;
 }
 
+function deleteProject() {
+    app.deleteCurProject();
+    renderProjects();
+}
+
 function renderProject(projIdx) {
     //(3) View all todos in each project
-    const {title, todos} = app.setCurProject(projIdx);;
+    const { title, todos } = app.setCurProject(projIdx);
     const mainProject = TEMPLATES.MAIN_PROJECT.content.cloneNode(true);
     // Set heading to title of project
     const heading = mainProject.querySelector('.heading');
     heading.textContent = title;
     // Set up list of todos
     const ul = mainProject.querySelector('.todos-list');
-    for(let i = 0; i < todos.length; i++) {
-        let {title, dueDateHuman} = todos[i];
+    for (let i = 0; i < todos.length; i++) {
+        let { title, dueDateHuman } = todos[i];
         ul.append(getTodoListNode(title, dueDateHuman, i));
     }
+    //(17) Allow for user to delete a project
+    const delBtn = mainProject.querySelector('.del-btn');
+    delBtn.addEventListener('click', deleteProject);
     MAIN.replaceChildren(mainProject);
 
-    //(17) Allow for user to create a todo
+    //(18) Allow for user to create a todo
     console.log('create todo by calling app.createTodo(projIdx, title, desc, dueDate)');
 }
 
 function renderTodo(idx) {
     //(7) View todo
-    const todo = (idx === undefined) ? app.getCurTodoDetails() : app.setCurTodo(idx);
+    const todo = idx === undefined ? app.getCurTodoDetails() : app.setCurTodo(idx);
     const mainTodo = TEMPLATES.MAIN_TODO.content.cloneNode(true);
     // Set title of todo
     const heading = mainTodo.querySelector('.heading');
