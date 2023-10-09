@@ -29,8 +29,34 @@ function getProjectListNode(i) {
 }
 
 function renderProjectsSidebar() {
+    PROJECT_UL.replaceChildren();
     for (let i = 0; i < app.getProjects().length; i++) {
         PROJECT_UL.append(getProjectListNode(i));
+    }
+}
+
+function createProject() {
+    const titleInput = document.getElementById('proj-title');
+    const title = titleInput.value;
+    //(16) create project
+    app.createProject(title);
+    renderProjects();
+}
+
+function toggleCreateProj(e) {
+    const toggleBtn = e.target;
+    const form = document.getElementById('create-proj-form');
+    const createBtn = document.getElementById('create-btn');
+    toggleBtn.classList.toggle('active');
+    form.toggleAttribute('hidden');
+    if(toggleBtn.textContent === '+') {
+        // Showing the form
+        toggleBtn.textContent = 'x';
+        createBtn.addEventListener('click', createProject);
+    } else {
+        // Hiding the form
+        toggleBtn.textContent = '+';
+        createBtn.removeEventListener('click', createProject);
     }
 }
 
@@ -38,25 +64,28 @@ function renderProjectsMain() {
     app.setCurProject(null);
 
     const mainProjects = TEMPLATES.MAIN_PROJECTS.content.cloneNode(true);
-    const ul = mainProjects.querySelector('.projects-list');
+    const projectsListEnd = mainProjects.querySelector('.projects-list-end');
     for (let i = 0; i < app.getProjects().length; i++) {
-        ul.append(getProjectListNode(i));
+        projectsListEnd.before(getProjectListNode(i));
     }
+    //(15)Allow user to create a project (attach event handlers)
+    const createProjToggle = mainProjects.getElementById('create-proj-toggle');
+    createProjToggle.addEventListener('click', toggleCreateProj);
+
     MAIN.replaceChildren(mainProjects);
+}
+
+function renderProjects() {
+    renderProjectsSidebar();
+    renderProjectsMain();
 }
 
 function init() {
     //(1) View all projects
-    renderProjectsSidebar();
-    renderProjectsMain();
+    renderProjects();
     //(5) Allow for user to go back to looking at all the projects (add event handler)
     const asideButton = document.querySelector('aside button');
     asideButton.addEventListener('click', renderProjectsMain);
-
-    //(14) Remove all event handlers added from renderProject/renderTodo
-
-    //(15)Allow user to create a project (attach event handlers)
-    console.log('create project by calling app.createProject(title)');
 }
 
 function getTodoHandler(e) {
@@ -65,6 +94,7 @@ function getTodoHandler(e) {
 }
 
 function getTodoListNode(title, dueDate, todoIdx) {
+    //(6) Allow for user to expand a single todo to see its details (add event handlers)
     const li = document.createElement('li');
     const pLeft = document.createElement('o');
     const checkbox = document.createElement('input');
@@ -96,10 +126,6 @@ function renderProject(projIdx) {
         ul.append(getTodoListNode(title, dueDateHuman, i));
     }
     MAIN.replaceChildren(mainProject);
-
-    //(6) Allow for user to expand a single todo to see its details (add event handlers)
-    // For now, manually select todo by calling app.getTodo(projIdx, todoIdx)
-    console.log('select todo by calling app.getTodo(projIdx, todoIdx)');
 
     //(17) Allow for user to create a todo
     console.log('create todo by calling app.createTodo(projIdx, title, desc, dueDate)');
@@ -141,6 +167,7 @@ function editTodo(e) {
     const prioritySelect = document.getElementById('todo-priority');
     const priority = prioritySelect.selectedOptions[0].value;
     app.editCurTodo({ desc, dueDate, priority });
+    //(13) View todo with updated values
     renderTodo();
 }
 
@@ -167,12 +194,6 @@ function renderTodoForm() {
     const saveBtn = mainTodoForm.querySelector('.save-btn');
     saveBtn.addEventListener('click', editTodo);
     MAIN.replaceChildren(mainTodoForm);
-}
-
-function updateTodoDisplay(todo, prop, val) {
-    console.log(`${prop} has been changed to ${val}`);
-    //(13) View todo with updated values
-    renderTodo(todo);
 }
 
 // Initialization function

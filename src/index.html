@@ -21,6 +21,13 @@
                         <!--
                         <li>Project Titles</li>
                         -->
+                        <li class="projects-list-end">
+                            <button type="button" id="create-proj-toggle">+</button>
+                            <form id="create-proj-form" hidden>
+                                <input type="text" name="proj-title" id="proj-title">
+                                <button type="button" id="create-btn">&#10003;</button>
+                            </form>
+                        </li>
                     </ul>
                 </section>
             </template>
@@ -58,7 +65,7 @@
                         <p id="todo-priority"><!--Priority--></p>
                     </div>
                 </section> 
-                <section class="todo-btns">
+                <section class="btns">
                     <button type="button" class="edit-btn">Edit</button>
                     <button type="button" class="del-btn">Delete</button>
                 </section>
@@ -83,7 +90,7 @@
                         </select>
                     </div>
                 </form>
-                <section class="todo-btns">
+                <section class="btns">
                     <button type="button" class="back-btn">Back</button>
                     <button type="button" class="save-btn">Save</button>
                 </section>

@@ -31,6 +31,7 @@ button {
     --gray: rgb(225, 230, 240);
     --orange: rgb(240, 180, 40);
     --red: rgb(255, 0, 60);
+    --green: rgb(85, 250, 125);
 }
 
 /* || LAYOUT */
@@ -97,6 +98,29 @@ main li:not(:last-child) {
     border-bottom: none;
 }
 
+main section.btns {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 30px;
+}
+
+main section.btns button {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    background-color: var(--blue);
+}
+
+main section.btns button:active {
+    box-shadow: inset 0 0 5px 2px rgb(0, 0, 0);
+}
+
+main section.btns button.del-btn {
+    background-color: var(--red);
+}
+
 /* || MAIN - PROJECT TODOS */
 
 main .todos-list li {
@@ -113,6 +137,27 @@ main .todos-list input {
 main .projects-list li {
     text-align: center;
 }
+
+main li.projects-list-end button {
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--green);
+}
+
+main .projects-list-end button:active {
+    box-shadow: inset 0 0 5px 2px rgb(0, 0, 0);
+}
+
+button#create-proj-toggle.active {
+    background-color: var(--red);
+}
+
 
 /* || MAIN - TODO DETAILS */
 /* 
@@ -158,28 +203,3 @@ main .todo-details textarea {
     padding: 5px;
 }
 
-main section.todo-btns {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 30px;
-}
-
-main section.todo-btns button {
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: 5px 10px;
-    color: white;
-}
-
-main section.todo-btns button:active {
-    box-shadow: inset 0 0 5px 2px rgb(0, 0, 0);
-}
-
-main section.todo-btns button {
-    background-color: var(--blue);
-}
-
-main section.todo-btns button.del-btn {
-    background-color: var(--red);
-}

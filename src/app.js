@@ -12,10 +12,8 @@ function getProjects() {
 }
 
 function createProject(title) {
-    //(16) create project
     const proj = new Project(title);
     addProject(proj);
-    userInterface.displayProject(proj);
 }
 
 function getProject(idx) {
@@ -42,6 +40,7 @@ function getCurProjectDetails() {
 
 function addProject(...newProjects) {
     projects.push(...newProjects);
+    saveData();
 }
 
 function createTodo(projIdx, title, desc, dueDate) {
@@ -73,6 +72,7 @@ function editCurTodo(options) {
     for(const prop in options) {
         todo[prop] = options[prop];
     }
+    saveData();
 }
 
 function saveData() {
@@ -84,6 +84,10 @@ function saveData() {
 // Look at return value of JSON.stringify({projects: getProjects()}) for expected string to parse;
 function retrieveData() {
     let projects = localStorage.getItem('projects');
+    // Null check
+    if(projects === null) {
+        return null;
+    }
     projects = JSON.parse(projects, function(key, val) {
         // todos property of Project
         if(key === 'todos') {
@@ -109,5 +113,45 @@ function retrieveData() {
     return projects.projects;
 }
 
-//createProject, getProject, createTodo, getTodo, editTodo
-export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails, editCurTodo}; // |TODO remove addProject
+function init() {
+    const data = retrieveData();
+    if(data === null) {
+        projects.splice(0, projects.length); // clear projects array
+        createProject('default');
+
+        // Testing
+        /*
+        const test = [
+            new Project(
+                'default',
+                new Todo('chore1', 'lorem ipsum', new Date(2012,1,3), 'High'),
+                new Todo('chore2', 'lorem ipsum', new Date(2012,2,3), 'Low'),
+                new Todo('chore2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
+            ),
+            new Project(
+                'work',
+                new Todo('job1', 'lorem ipsum', new Date(2012,1,3), 'High'),
+                new Todo('job2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
+                new Todo('job3', 'lorem ipsum', new Date(2012,2,3), 'Low')
+            ),
+            new Project(
+                'school',
+                new Todo('hw1', 'lorem ipsum', new Date(2012,1,3), 'High'),
+                new Todo('hw2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
+                new Todo('hw3', 'lorem ipsum', new Date(2012,2,3), 'Low')
+            ),
+        ];
+
+        addProject(...test);
+        */
+        // END TEST
+    } else {
+        addProject(...data);
+    }
+}
+
+init();
+
+//createTodo
+export { getProjects, getProject, setCurProject, addProject, setCurTodo, getCurTodoDetails, editCurTodo, createProject}; // |TODO remove addProject
+// |TODO clear local storage
