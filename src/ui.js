@@ -125,10 +125,10 @@ function renderProject(projIdx) {
     const heading = mainProject.querySelector('.heading');
     heading.textContent = title;
     // Set up list of todos
-    const ul = mainProject.querySelector('.todos-list');
+    const todosListEnd = mainProject.querySelector('.todos-list-end');
     for (let i = 0; i < todos.length; i++) {
         let { title, dueDateHuman } = todos[i];
-        ul.append(getTodoListNode(title, dueDateHuman, i));
+        todosListEnd.before(getTodoListNode(title, dueDateHuman, i));
     }
     //(17) Allow for user to delete a project
     const delBtn = mainProject.querySelector('.del-btn');
@@ -136,7 +136,8 @@ function renderProject(projIdx) {
     MAIN.replaceChildren(mainProject);
 
     //(18) Allow for user to create a todo
-    console.log('create todo by calling app.createTodo(projIdx, title, desc, dueDate)');
+    const createBtn = document.getElementById('create-todo');
+    createBtn.addEventListener('click', renderCreateTodoForm);
 }
 
 function renderTodo(idx) {
@@ -157,14 +158,16 @@ function renderTodo(idx) {
     priority.textContent = todo.priority;
     // Edit button
     const editBtn = mainTodo.querySelector('.edit-btn');
-    editBtn.addEventListener('click', renderTodoForm);
+    editBtn.addEventListener('click', renderEditTodoForm);
     // Delete button
     const delBtn = mainTodo.querySelector('.del-btn');
     MAIN.replaceChildren(mainTodo);
 }
 
-function editTodo(e) {
-    //(12) Edit todo
+function getTodoFormValues() {
+    // Get title
+    const titleInput = document.getElementById('todo-title');
+    const title = titleInput.value;
     // Get description
     const descTextArea = document.getElementById('todo-desc');
     const desc = descTextArea.value;
@@ -174,18 +177,25 @@ function editTodo(e) {
     // get priority
     const prioritySelect = document.getElementById('todo-priority');
     const priority = prioritySelect.selectedOptions[0].value;
-    app.editCurTodo({ desc, dueDate, priority });
+
+    return { title, desc, dueDate, priority };
+}
+
+function editTodo(e) {
+    //(12) Edit todo
+    const { title, desc, dueDate, priority } = getTodoFormValues();
+    app.editCurTodo({ title, desc, dueDate, priority });
     //(13) View todo with updated values
     renderTodo();
 }
 
-function renderTodoForm() {
+function renderEditTodoForm() {
     const todo = app.getCurTodoDetails();
     //(11) Allow for user to edit the todo (add event handlers)
     const mainTodoForm = TEMPLATES.MAIN_TODO_FORM.content.cloneNode(true);
     // Set title of todo
-    const heading = mainTodoForm.querySelector('.heading');
-    heading.textContent = todo.title;
+    const titleInput = mainTodoForm.getElementById('todo-title');
+    titleInput.value = todo.title;
     // Set description
     const descTextArea = mainTodoForm.getElementById('todo-desc');
     descTextArea.textContent = todo.desc;
@@ -201,6 +211,26 @@ function renderTodoForm() {
     // Save button
     const saveBtn = mainTodoForm.querySelector('.save-btn');
     saveBtn.addEventListener('click', editTodo);
+    MAIN.replaceChildren(mainTodoForm);
+}
+
+function createTodo() {
+    const { title, desc, dueDate, priority } = getTodoFormValues();
+    //(19) create todo
+    app.createTodo(title, desc, dueDate, priority);
+    // Simulate event e with e.target.dataset.projIdx
+    getProjectHandler({ target: { dataset: { projIdx: app.getCurProjectDetails().idx } } });
+}
+
+function renderCreateTodoForm() {
+    const mainTodoForm = TEMPLATES.MAIN_TODO_FORM.content.cloneNode(true);
+    // Back button
+    const backBtn = mainTodoForm.querySelector('.back-btn');
+    backBtn.dataset.projIdx = app.getCurProjectDetails().idx; // To be retrieved by getProjectHandler
+    backBtn.addEventListener('click', getProjectHandler);
+    // Save button
+    const saveBtn = mainTodoForm.querySelector('.save-btn');
+    saveBtn.addEventListener('click', createTodo);
     MAIN.replaceChildren(mainTodoForm);
 }
 

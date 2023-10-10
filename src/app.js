@@ -33,6 +33,7 @@ function setCurProject(idx) {
 function getCurProjectDetails() {
     const curProj = getProject(state.curProjIdx);
     return {
+        idx: state.curProjIdx,
         title: curProj.title,
         todos: curProj.todos,
     };
@@ -43,11 +44,28 @@ function addProject(...newProjects) {
     saveData();
 }
 
-function createTodo(projIdx, title, desc, dueDate) {
-    //(19) create todo
-    const todo = new Todo(title, desc, dueDate);
+/**
+ * Create Todo on specified project
+ * @param {Number} projIdx
+ * @param {String} title
+ * @param {String} desc
+ * @param {Date} dueDate
+ * @param {String} priority
+ */
+function createTodoAnyProject(projIdx, title, desc, dueDate, priority) {
+    const todo = new Todo(title, desc, dueDate, priority);
     projects[projIdx].addTodo(todo);
-    userInterface.displayTodo(todo);
+}
+
+/**
+ * Create Todo on current project
+ * @param {String} title
+ * @param {String} desc
+ * @param {Date} dueDate
+ * @param {String} priority
+ */
+function createTodo(title, desc, dueDate, priority) {
+    createTodoAnyProject(state.curProjIdx, title, desc, dueDate, priority);
 }
 
 function getCurTodoDetails() {
@@ -130,21 +148,21 @@ function addDummyProjects() {
     const test = [
         new Project(
             'default',
-            new Todo('chore1', 'lorem ipsum', new Date(2012,1,3), 'High'),
-            new Todo('chore2', 'lorem ipsum', new Date(2012,2,3), 'Low'),
-            new Todo('chore2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
+            new Todo('chore1', 'lorem ipsum', new Date(2012, 1, 3), 'High'),
+            new Todo('chore2', 'lorem ipsum', new Date(2012, 2, 3), 'Low'),
+            new Todo('chore2', 'lorem ipsum', new Date(2012, 2, 3), 'Medium')
         ),
         new Project(
             'work',
-            new Todo('job1', 'lorem ipsum', new Date(2012,1,3), 'High'),
-            new Todo('job2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
-            new Todo('job3', 'lorem ipsum', new Date(2012,2,3), 'Low')
+            new Todo('job1', 'lorem ipsum', new Date(2012, 1, 3), 'High'),
+            new Todo('job2', 'lorem ipsum', new Date(2012, 2, 3), 'Medium'),
+            new Todo('job3', 'lorem ipsum', new Date(2012, 2, 3), 'Low')
         ),
         new Project(
             'school',
-            new Todo('hw1', 'lorem ipsum', new Date(2012,1,3), 'High'),
-            new Todo('hw2', 'lorem ipsum', new Date(2012,2,3), 'Medium'),
-            new Todo('hw3', 'lorem ipsum', new Date(2012,2,3), 'Low')
+            new Todo('hw1', 'lorem ipsum', new Date(2012, 1, 3), 'High'),
+            new Todo('hw2', 'lorem ipsum', new Date(2012, 2, 3), 'Medium'),
+            new Todo('hw3', 'lorem ipsum', new Date(2012, 2, 3), 'Low')
         ),
     ];
 
@@ -156,7 +174,7 @@ function init() {
     if (data === null) {
         projects.splice(0, projects.length); // clear projects array
         createProject('default'); // Replace with addDummyProjects() for testing
-        //addDummyProjects() 
+        //addDummyProjects()
     } else {
         addProject(...data);
     }
@@ -169,11 +187,13 @@ export {
     getProjects,
     getProject,
     setCurProject,
+    getCurProjectDetails,
     addProject,
     setCurTodo,
     getCurTodoDetails,
     editCurTodo,
     createProject,
     deleteCurProject,
+    createTodo,
 }; // |TODO remove addProject
 // |TODO clear local storage

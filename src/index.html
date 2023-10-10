@@ -21,7 +21,7 @@
                         <!--
                         <li>Project Titles</li>
                         -->
-                        <li class="projects-list-end">
+                        <li class="projects-list-end list-end">
                             <button type="button" id="create-proj-toggle">+</button>
                             <form id="create-proj-form" hidden>
                                 <input type="text" name="proj-title" id="proj-title" autocomplete="off">
@@ -44,6 +44,9 @@
                             <p>duedate</p>
                         </li>
                         -->
+                        <li class="todos-list-end list-end">
+                            <button type="button" id="create-todo">+</button>
+                        </li>
                     </ul>
                 </section>
                 <section class="btns">
@@ -74,8 +77,11 @@
                 </section>
             </template>
             <template id="main-todo-form-template">
-                <h2 class="heading"><!--Todo Title--></h2>
                 <form class="todo-details">
+                    <div class="form-field">
+                        <label for="todo-title">Title</label>
+                        <input id="todo-title" name="todo-title" type="text" autocomplete="off">
+                    </div>
                     <div class="form-field">
                         <label for="todo-desc">Description</label>
                         <textarea id="todo-desc" name="todo-desc"></textarea>
