@@ -160,7 +160,9 @@ function renderTodo(idx) {
     const editBtn = mainTodo.querySelector('.edit-btn');
     editBtn.addEventListener('click', renderEditTodoForm);
     // Delete button
+    // (20) Allow users to delete todo
     const delBtn = mainTodo.querySelector('.del-btn');
+    delBtn.addEventListener('click', deleteTodo);
     MAIN.replaceChildren(mainTodo);
 }
 
@@ -232,6 +234,13 @@ function renderCreateTodoForm() {
     const saveBtn = mainTodoForm.querySelector('.save-btn');
     saveBtn.addEventListener('click', createTodo);
     MAIN.replaceChildren(mainTodoForm);
+}
+
+function deleteTodo() {
+    // (21) Delete todo
+    app.deleteCurTodo();
+    // Simulate event e with e.target.dataset.projIdx
+    getProjectHandler({ target: { dataset: { projIdx: app.getCurProjectDetails().idx } } });
 }
 
 // Initialization function

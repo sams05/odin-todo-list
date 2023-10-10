@@ -18,6 +18,10 @@ export default class Project {
         return this.todos[idx];
     }
 
+    deleteTodo(idx) {
+        this.#todos.splice(idx, 1);
+    }
+
     toJSON() {
         return {
             title: this.title,

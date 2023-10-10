@@ -55,6 +55,7 @@ function addProject(...newProjects) {
 function createTodoAnyProject(projIdx, title, desc, dueDate, priority) {
     const todo = new Todo(title, desc, dueDate, priority);
     projects[projIdx].addTodo(todo);
+    saveData();
 }
 
 /**
@@ -100,6 +101,14 @@ function deleteProject(idx) {
 
 function deleteCurProject() {
     deleteProject(state.curProjIdx);
+    state.curProjIdx = null;
+}
+
+function deleteCurTodo() {
+    const curProj = getProject(state.curProjIdx);
+    curProj.deleteTodo(state.curTodoIdx);
+    state.curTodoIdx = null;
+    saveData();
 }
 
 function saveData() {
@@ -182,18 +191,17 @@ function init() {
 
 init();
 
-//createTodo
 export {
     getProjects,
     getProject,
     setCurProject,
     getCurProjectDetails,
-    addProject,
     setCurTodo,
     getCurTodoDetails,
     editCurTodo,
     createProject,
     deleteCurProject,
     createTodo,
-}; // |TODO remove addProject
+    deleteCurTodo
+};
 // |TODO clear local storage
