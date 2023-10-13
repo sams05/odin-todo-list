@@ -3,5 +3,5 @@
     "[javascript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "cSpell.words": ["todos"]
+    "cSpell.words": ["todos", "uuidv4"]
 }

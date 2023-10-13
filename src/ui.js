@@ -89,24 +89,32 @@ function init() {
 }
 
 function getTodoHandler(e) {
-    const todoIdx = e.target.dataset.todoIdx;
-    renderTodo(todoIdx);
+    const todoId = e.currentTarget.dataset.todoId;
+    renderTodo(todoId);
 }
 
-function getTodoListNode(title, dueDate, todoIdx) {
+function getTodoLi(title, dueDate, check, todoId) {
     //(6) Allow for user to expand a single todo to see its details (add event handlers)
     const li = document.createElement('li');
-    const pLeft = document.createElement('o');
+    const pLeft = document.createElement('p');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
+    if(check) {
+        checkbox.checked = true;
+    }
     const btn = document.createElement('button');
-    btn.textContent = title;
-    btn.dataset.todoIdx = todoIdx;
+    // Strike through the title if checked
+    const btnText = check ? document.createElement('s') : document.createElement('span');
+    btnText.textContent = title;
+    btn.append(btnText);
+    btn.dataset.todoId = todoId;
     btn.addEventListener('click', getTodoHandler);
     pLeft.append(checkbox, btn);
 
     const pRight = document.createElement('p');
-    pRight.textContent = dueDate;
+    const pRightText = check ? document.createElement('s') : document.createElement('span');
+    pRightText.textContent = dueDate;
+    pRight.append(pRightText);
 
     li.append(pLeft, pRight);
     return li;
@@ -124,25 +132,35 @@ function renderProject(projIdx) {
     // Set heading to title of project
     const heading = mainProject.querySelector('.heading');
     heading.textContent = title;
+
     // Set up list of todos
-    const todosListEnd = mainProject.querySelector('.todos-list-end');
-    for (let i = 0; i < todos.length; i++) {
-        let { title, dueDateHuman } = todos[i];
-        todosListEnd.before(getTodoListNode(title, dueDateHuman, i));
+    // Unchecked todos
+    const uncheckedTodosListEnd = mainProject.querySelector('#todos-list-unchecked .todos-list-end');
+    for (const todo of todos.unchecked) {
+        let { title, dueDateHuman, check, id } = todo;
+        uncheckedTodosListEnd.before(getTodoLi(title, dueDateHuman, check, id));
     }
+    // Checked todos
+    const checkedTodosList = mainProject.getElementById('todos-list-checked');
+    for (const todo of todos.checked) {
+        let { title, dueDateHuman, check, id } = todo;
+        checkedTodosList.append(getTodoLi(title, dueDateHuman, check, id));
+    }
+
     //(17) Allow for user to delete a project
     const delBtn = mainProject.querySelector('.del-btn');
     delBtn.addEventListener('click', deleteProject);
-    MAIN.replaceChildren(mainProject);
 
     //(18) Allow for user to create a todo
-    const createBtn = document.getElementById('create-todo');
+    const createBtn = mainProject.getElementById('create-todo');
     createBtn.addEventListener('click', renderCreateTodoForm);
+
+    MAIN.replaceChildren(mainProject);
 }
 
-function renderTodo(idx) {
+function renderTodo(id) {
     //(7) View todo
-    const todo = idx === undefined ? app.getCurTodoDetails() : app.setCurTodo(idx);
+    const todo = id === undefined ? app.getCurTodoDetails() : app.setCurTodo(id);
     const mainTodo = TEMPLATES.MAIN_TODO.content.cloneNode(true);
     // Set title of todo
     const heading = mainTodo.querySelector('.heading');

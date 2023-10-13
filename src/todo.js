@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Class for Todo objects which will be maintained under a Project object
@@ -14,6 +15,7 @@ export default class Todo {
     #dueDate;
     #priority;
     #check;
+    #id;
 
     constructor(title, desc, dueDate, priority, check = false) {
         this.title = title;
@@ -21,6 +23,7 @@ export default class Todo {
         this.dueDate = dueDate;
         this.priority = priority;
         this.check = check;
+        this.#id = uuidv4();
     }
 
     get title() {
@@ -52,6 +55,10 @@ export default class Todo {
 
     get check() {
         return this.#check;
+    }
+
+    get id() {
+        return this.#id;
     }
 
     set title(title) {

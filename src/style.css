@@ -80,7 +80,7 @@ main {
 main .heading {
     text-align: center;
 
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 main section {
@@ -153,7 +153,6 @@ main .todos-list li.list-end {
     display: flex;
     justify-content: center;
 }
-
 
 main .todos-list input {
     margin-right: 15px;

@@ -33,8 +33,9 @@
             </template>
             <template id="main-project-template">
                 <h2 class="heading"><!--Project Name--></h2>
+                <h3 class="heading">To Do</h3>
                 <section>
-                    <ul class="todos-list">
+                    <ul id="todos-list-unchecked" class="todos-list">
                         <!--
                         <li>
                             <p>
@@ -47,6 +48,20 @@
                         <li class="todos-list-end list-end">
                             <button type="button" id="create-todo">+</button>
                         </li>
+                    </ul>
+                </section>
+                <h3 class="heading">Completed</h3>
+                <section>
+                    <ul id="todos-list-checked" class="todos-list">
+                        <!--
+                        <li>
+                            <p>
+                                <input type="checkbox" name="" id="">
+                                <button>title</button>
+                            </p>
+                            <p>duedate</p>
+                        </li>
+                        -->
                     </ul>
                 </section>
                 <section class="btns">
