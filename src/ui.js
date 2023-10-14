@@ -93,15 +93,29 @@ function getTodoHandler(e) {
     renderTodo(todoId);
 }
 
-function getTodoLi(title, dueDate, check, todoId) {
+function checkTodoHandler(e) {
+    const checkbox = e.currentTarget;
+    const todoId = checkbox.dataset.todoId;
+    const check = checkbox.checked;
+    // (23) Check/uncheck todo
+    app.editTodoInCurProject(todoId, { check });
+    // Simulate event e with e.target.dataset.projIdx
+    getProjectHandler({ target: { dataset: { projIdx: app.getCurProjectDetails().idx } } });
+}
+
+function getTodoLi(title, dueDate, check, todoId, priority) {
     //(6) Allow for user to expand a single todo to see its details (add event handlers)
     const li = document.createElement('li');
+    li.classList.add(`priority-${priority}`); // To style background color by priority
     const pLeft = document.createElement('p');
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     if(check) {
         checkbox.checked = true;
     }
+    // (22) Allow users to check/uncheck todos
+    checkbox.dataset.todoId = todoId;
+    checkbox.addEventListener('change', checkTodoHandler);
     const btn = document.createElement('button');
     // Strike through the title if checked
     const btnText = check ? document.createElement('s') : document.createElement('span');
@@ -137,14 +151,14 @@ function renderProject(projIdx) {
     // Unchecked todos
     const uncheckedTodosListEnd = mainProject.querySelector('#todos-list-unchecked .todos-list-end');
     for (const todo of todos.unchecked) {
-        let { title, dueDateHuman, check, id } = todo;
-        uncheckedTodosListEnd.before(getTodoLi(title, dueDateHuman, check, id));
+        let { title, dueDateHuman, check, id, priority } = todo;
+        uncheckedTodosListEnd.before(getTodoLi(title, dueDateHuman, check, id, priority));
     }
     // Checked todos
     const checkedTodosList = mainProject.getElementById('todos-list-checked');
     for (const todo of todos.checked) {
-        let { title, dueDateHuman, check, id } = todo;
-        checkedTodosList.append(getTodoLi(title, dueDateHuman, check, id));
+        let { title, dueDateHuman, check, id, priority } = todo;
+        checkedTodosList.append(getTodoLi(title, dueDateHuman, check, id, priority));
     }
 
     //(17) Allow for user to delete a project

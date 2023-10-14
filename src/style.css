@@ -21,6 +21,7 @@ button {
     font-family: inherit;
     font-size: inherit;
     color: inherit;
+    text-shadow: inherit;
     cursor: pointer;
 }
 
@@ -147,6 +148,20 @@ main .list-end button:active {
 main .todos-list li {
     display: flex;
     justify-content: space-between;
+    color: white;
+    text-shadow: 0 0 2px black;
+}
+
+main .todos-list li.priority-low {
+    background-color: var(--green);
+}
+
+main .todos-list li.priority-medium {
+    background-color: var(--orange);
+}
+
+main .todos-list li.priority-high {
+    background-color: var(--red);
 }
 
 main .todos-list li.list-end {
